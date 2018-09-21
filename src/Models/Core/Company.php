@@ -1,6 +1,6 @@
 <?php
 
-namespace Develoopin\Subscriptions\Models\Core;
+namespace App\Models\Core;
 
 
 use Illuminate\Database\Eloquent\Model;

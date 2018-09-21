@@ -1,29 +1,29 @@
 {
-    "name": "develoopin/subscriptions",
-    "description": "Subscription model for plan with laravel.",
-    "keywords": [
-        "plans",
-        "laravel",
-        "subscriptions",
-        "memberships"
-    ],
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "develoopin",
-            "email": "develoopindonesia@gmail.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Develoopin\\Subscriptions\\": "src/"
-        }
-    },
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=5.5.9",
-        "illuminate/support": "~5.3",
-        "illuminate/database": "~5.3"
+  "name": "develoopin/subscriptions",
+  "description": "Subscription model for plan with laravel.",
+  "keywords": [
+    "plans",
+    "laravel",
+    "subscriptions",
+    "memberships"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "develoopin",
+      "email": "develoopindonesia@gmail.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Develoopin\\Subscriptions\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=5.5.9",
+    "illuminate/support": "~5.3",
+    "illuminate/database": "~5.3"
+  }
 }
