@@ -1,8 +1,7 @@
 <?php
 
-namespace Develoopin\Subscriptions\Models\Core;
+namespace App\Models\Core;
 
-use Develoopin\Subscriptions\Period;
 use Illuminate\Database\Eloquent\Model;
 
 class Subscriptions extends Model

@@ -1,7 +1,6 @@
 <?php
 
-namespace Develoopin\Subscriptions\Models\Core;
-
+namespace App\Models\Core;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;

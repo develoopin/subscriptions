@@ -39,7 +39,7 @@ class SubscriptionServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/config/subscriptions.php', 'subscriptions');
 
         $this->app->bind(FeaturesInterface::class, config('subscriptions.models.core.features'));
-        $this->app->bind(ModulsInterface::class, config('subscriptions.models.core.moduls'));
+        $this->app->bind(ModulsInterface::class, config('subscriptions.models.core.modules'));
         $this->app->bind(PlansInterface::class, config('subscriptions.models.core.plans'));
         $this->app->bind(SubscriptionsUsageInterface::class, config('subscriptions.models.core.subscriptions'));
         $this->app->bind(SubscriptionUsagesInterface::class, config('subscriptions.models.core.subscription_usages'));

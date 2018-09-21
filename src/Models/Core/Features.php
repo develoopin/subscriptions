@@ -55,27 +55,6 @@ class Features extends Model
         return $this->hasMany(config('descriptions.models.core.subscriptions'));
     }
 
-
-    /**
-     * Get Interval Description
-     *
-     * @return string
-     */
-    public function getIntervalDescriptionAttribute()
-    {
-        return trans_choice('laraplans::messages.interval_description.'.$this->interval, $this->interval_count);
-    }
-
-    /**
-     * Check if plan is free.
-     *
-     * @return boolean
-     */
-    public function isFree()
-    {
-        return ((float) $this->price <= 0.00);
-    }
-
     /**
      * Check if plan has trial.
      *
