@@ -50,7 +50,7 @@ class SubscriptionServiceProvider extends ServiceProvider
      *
      * @return array
      */
-    public function provides()
+    public function providers()
     {
         //
     }

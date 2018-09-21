@@ -34,7 +34,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('company_id')->references('id')->on('companies');
-            $table->foreign('role_id')->references('id')->on('roles');
+            // $table->foreign('role_id')->references('id')->on('roles');
         });
     }
 
