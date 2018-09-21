@@ -20,7 +20,7 @@ class SubscriptionServiceProvider extends ServiceProvider
         ], 'migrations-subscriptions');
 
         $this->publishes([
-            __DIR__.'/models/core/' => app_path('models/core/')
+            __DIR__.'/models/core/' => app_path('Models/Core/')
         ], 'models-subscriptions');
 
         $this->publishes([
