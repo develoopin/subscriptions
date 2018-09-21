@@ -1,9 +1,9 @@
 <?php
 
-namespace Develoopin\Subscription;
+namespace Develoopin\Subscriptions;
 
 use Illuminate\Support\ServiceProvider;
-use Develoopin\Subscription;
+use Develoopin\Subscriptions;
 
 class SubscriptionServiceProvider extends ServiceProvider
 {
@@ -16,11 +16,15 @@ class SubscriptionServiceProvider extends ServiceProvider
     {
 
         $this->publishes([
-            __DIR__.'/../database/migrations/core/' => database_path('migrations/core/')
-        ], 'migrations');
+            __DIR__.'/database/migrations/core/' => database_path('migrations/core/')
+        ], 'migrations-subscriptions');
 
         $this->publishes([
-            __DIR__.'/../config/subscriptions.php' => config_path('subscriptions.php')
+            __DIR__.'/models/core/' => app_path('models/core/')
+        ], 'models-subscriptions');
+
+        $this->publishes([
+            __DIR__.'/config/subscriptions.php' => config_path('subscriptions.php')
         ], 'config');
 
     }
@@ -32,7 +36,7 @@ class SubscriptionServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/subscriptions.php', 'subscriptions');
+        $this->mergeConfigFrom(__DIR__.'/config/subscriptions.php', 'subscriptions');
 
         $this->app->bind(FeaturesInterface::class, config('subscriptions.models.core.features'));
         $this->app->bind(ModulsInterface::class, config('subscriptions.models.core.moduls'));
