@@ -1,8 +1,6 @@
 <?php
 
-namespace Develoopin\Subscriptions\Models\Core;
-
-use Develoopin\Subscriptions\Period;
+namespace App\Models\Core;
 use Illuminate\Database\Eloquent\Model;
 
 class Plans extends Model
