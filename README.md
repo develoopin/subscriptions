@@ -1,19 +1,18 @@
-Develoopin Laravel Subscription
+# Develoopin Laravel Subscription
 
-Installation
-
+## Installation
 Install via the composer require command:
 
-$ composer require develoopin/subscriptions
+`$ composer require develoopin/subscriptions`
 
-Add into config/app.php on providers section/array:
+Add into `config/app.php` on `providers` section/array:
 
-Develoopin\Subscriptions\SubscriptionServiceProvider::class
+`Develoopin\Subscriptions\SubscriptionServiceProvider::class`
 
 Publish the config file:
 
-$ php artisan vendor:publish
+`$ php artisan vendor:publish`
 
 Migrate database with:
 
-$ php artisan migrate --path=/database/migrations/core
+`$ php artisan migrate --path=/database/migrations/core`
