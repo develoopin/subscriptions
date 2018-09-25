@@ -13,8 +13,8 @@ class Moduls extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('moduls')) {
-            Schema::create('moduls', function (Blueprint $table) {
+        if (!Schema::hasTable('modules')) {
+            Schema::create('modules', function (Blueprint $table) {
                 $table->increments('id')->unsigned();
                 $table->integer('plan_id')->unsigned();
                 $table->json('name');
@@ -42,6 +42,6 @@ class Moduls extends Migration
     public function down()
     {
         Schema::dropIfExists('moduls');
-        
+
     }
 }

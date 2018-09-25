@@ -16,13 +16,13 @@ class Features extends Migration
         if (!Schema::hasTable('features')) {
             Schema::create('features', function (Blueprint $table) {
                 $table->increments('id')->unsigned();
-                $table->integer('modul_id')->unsigned();
+                $table->integer('module_id')->unsigned();
                 $table->json('name');
                 $table->tinyInteger('sort')->unsigned();
                 $table->timestamps();
                 $table->softDeletes();
 
-                $table->foreign('modul_id')->references('id')->on('moduls');
+                $table->foreign('module_id')->references('id')->on('modules');
 
             });
         }
@@ -36,6 +36,6 @@ class Features extends Migration
     public function down()
     {
         Schema::dropIfExists('features');
-        
+
     }
 }

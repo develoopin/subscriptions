@@ -20,7 +20,7 @@ class Companies extends Migration
                 $table->string('name');
                 $table->text('db_name')->nullable(true)->default(null);
                 $table->text('db_host')->nullable(true)->default(null);
-                $table->text('addres');
+                $table->text('address');
                 $table->string('country');
                 $table->string('city');
                 $table->integer('zip');
