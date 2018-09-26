@@ -24,13 +24,13 @@ class Plans extends Migration
                 $table->smallInteger('trial_period')->unsigned();
                 $table->smallInteger('trial_limit')->unsigned();
                 $table->smallInteger('period')->unsigned();
-                $table->smallInteger('interval')->unsigned();
+                $table->enum('interval',['day','week','month','year'])->default('day');
                 $table->smallInteger('grace_period')->unsigned();
-                $table->smallInteger('grace_interval')->unsigned();
+                $table->enum('grace_interval',['day','week','month','year'])->default('day');
                 $table->smallInteger('prorate_period')->unsigned();
-                $table->smallInteger('prorate_interval')->unsigned();
+                $table->enum('prorate_interval',['day','week','month','year'])->default('day');
                 $table->smallInteger('canceled_period')->unsigned();
-                $table->smallInteger('canceled_interval')->unsigned();
+                $table->enum('canceled_interval',['day','week','month','year'])->default('day');
                 $table->enum('type', ['primary', 'addon']);
                 $table->tinyInteger('sort')->unsigned();
                 $table->timestamps();

@@ -18,12 +18,12 @@ class Subscriptions extends Migration
                 $table->increments('id')->unsigned();
                 $table->integer('plan_id')->unsigned();
                 $table->integer('user_id')->unsigned();
-                $table->date('cancel_limit_at')->nullable(true)->default(null);
-                $table->date('canceled_at')->nullable(true)->default(null);
-                $table->date('trial_end_at')->nullable(true)->default(null);
-                $table->date('start_at')->nullable(true)->default(null);
-                $table->date('end_at')->nullable(true)->default(null);
-                $table->date('frozen_at')->nullable(true)->default(null);
+                $table->dateTime('cancel_limit_at')->nullable(true)->default(null);
+                $table->dateTime('canceled_at')->nullable(true)->default(null);
+                $table->dateTime('trial_end_at')->nullable(true)->default(null);
+                $table->dateTime('start_at')->nullable(true)->default(null);
+                $table->dateTime('end_at')->nullable(true)->default(null);
+                $table->dateTime('frozen_at')->nullable(true)->default(null);
                 $table->timestamps();
                 $table->softDeletes();
                 $table->foreign('plan_id')->references('id')->on('plans');

@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Models\Core;
-
 use Illuminate\Database\Eloquent\Model;
 
-class Subscriptions extends Model
+class SubscriptionUsage extends Model
 {
     /**
      * The attributes that are mass assignable.

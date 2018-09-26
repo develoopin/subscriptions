@@ -1,18 +1,23 @@
 <?php
 
 namespace App\Models\Core;
+
 use Illuminate\Database\Eloquent\Model;
 
-class Plans extends Model
+class Feature extends Model
 {
+
+    use Notifiable, SoftDeletes;
+
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
+        'module_id',
         'name',
-        'description',
         'price',
         'interval',
         'interval_count',
@@ -30,33 +35,13 @@ class Plans extends Model
     ];
 
     /**
-     * Boot function for using with User Events.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($model) {
-            if (! $model->interval) {
-                $model->interval = 'month';
-            }
-
-            if (! $model->interval_count) {
-                $model->interval_count = 1;
-            }
-        });
-    }
-
-    /**
      * Get plan features.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function features()
     {
-        return $this->hasMany(config('laraplans.models.plan_feature'));
+        return $this->hasMany(config('descriptions.models.core.features'));
     }
 
     /**
@@ -66,38 +51,7 @@ class Plans extends Model
      */
     public function subscriptions()
     {
-        return $this->hasMany(config('laraplans.models.plan_subscription'));
-    }
-
-    /**
-     * Get Interval Name
-     *
-     * @return mixed string|null
-     */
-    public function getIntervalNameAttribute()
-    {
-        $intervals = Period::getAllIntervals();
-        return (isset($intervals[$this->interval]) ? $intervals[$this->interval] : null);
-    }
-
-    /**
-     * Get Interval Description
-     *
-     * @return string
-     */
-    public function getIntervalDescriptionAttribute()
-    {
-        return trans_choice('laraplans::messages.interval_description.'.$this->interval, $this->interval_count);
-    }
-
-    /**
-     * Check if plan is free.
-     *
-     * @return boolean
-     */
-    public function isFree()
-    {
-        return ((float) $this->price <= 0.00);
+        return $this->hasMany(config('descriptions.models.core.subscriptions'));
     }
 
     /**
@@ -119,7 +73,7 @@ class Plans extends Model
      */
     public function getFeatureByCode($code)
     {
-        $feature = $this->features()->getEager()->first(function($item) use ($code) {
+        $feature = $this->features()->getEager()->first(function ($item) use ($code) {
             return $item->code === $code;
         });
 

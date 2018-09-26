@@ -4,20 +4,16 @@ namespace App\Models\Core;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Features extends Model
+class Subscription extends Model
 {
-
-	use Notifiable, SoftDeletes;
-
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'modul_id',
         'name',
+        'description',
         'price',
         'interval',
         'interval_count',
@@ -31,8 +27,28 @@ class Features extends Model
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at', 'deleted_at'
+        'created_at', 'updated_at'
     ];
+
+    /**
+     * Boot function for using with User Events.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            if (! $model->interval) {
+                $model->interval = 'month';
+            }
+
+            if (! $model->interval_count) {
+                $model->interval_count = 1;
+            }
+        });
+    }
 
     /**
      * Get plan features.
@@ -41,7 +57,7 @@ class Features extends Model
      */
     public function features()
     {
-        return $this->hasMany(config('descriptions.models.core.features'));
+        return $this->hasMany(config('laraplans.models.plan_feature'));
     }
 
     /**
@@ -51,7 +67,38 @@ class Features extends Model
      */
     public function subscriptions()
     {
-        return $this->hasMany(config('descriptions.models.core.subscriptions'));
+        return $this->hasMany(config('laraplans.models.plan_subscription'));
+    }
+
+    /**
+     * Get Interval Name
+     *
+     * @return mixed string|null
+     */
+    public function getIntervalNameAttribute()
+    {
+        $intervals = Period::getAllIntervals();
+        return (isset($intervals[$this->interval]) ? $intervals[$this->interval] : null);
+    }
+
+    /**
+     * Get Interval Description
+     *
+     * @return string
+     */
+    public function getIntervalDescriptionAttribute()
+    {
+        return trans_choice('laraplans::messages.interval_description.'.$this->interval, $this->interval_count);
+    }
+
+    /**
+     * Check if plan is free.
+     *
+     * @return boolean
+     */
+    public function isFree()
+    {
+        return ((float) $this->price <= 0.00);
     }
 
     /**

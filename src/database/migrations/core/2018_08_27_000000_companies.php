@@ -31,8 +31,8 @@ class Companies extends Migration
                 $table->string('phone2')->nullable(true)->default(null);
                 $table->integer('balance');
                 $table->enum('status', ['active', 'fereeze', 'deleted']);
-                $table->date('register_at')->nullable(true)->default(null);
-                $table->date('verify_at')->nullable(true)->default(null);
+                $table->dateTime('register_at')->nullable(true)->default(null);
+                $table->dateTime('verify_at')->nullable(true)->default(null);
                 $table->softDeletes();
                 $table->timestamps();
             });

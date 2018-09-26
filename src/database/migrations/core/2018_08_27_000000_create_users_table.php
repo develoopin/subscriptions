@@ -27,10 +27,10 @@ class CreateUsersTable extends Migration
             $table->string('city');
             $table->integer('zip');
             $table->rememberToken();
-            $table->string('mobile_token');
-            $table->date('deactivation_at')->nullable(true)->default(null);
-            $table->date('register_at')->nullable(true)->default(null);
-            $table->date('verify_at')->nullable(true)->default(null);
+            $table->string('mobile_token')->nullable(true);
+            $table->dateTime('deactivation_at')->nullable(true)->default(null);
+            $table->dateTime('register_at')->nullable(true)->default(null);
+            $table->dateTime('verify_at')->nullable(true)->default(null);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('company_id')->references('id')->on('companies');

@@ -19,7 +19,7 @@ class SubscriptionUsages extends Migration
                 $table->integer('subs_id')->unsigned();
                 $table->integer('usages')->unsigned();
                 $table->integer('price')->unsigned();
-                $table->date('used_at')->nullable(true)->default(null);
+                $table->dateTime('used_at')->nullable(true)->default(null);
                 $table->timestamps();
                 $table->softDeletes();
                 $table->foreign('subs_id')->references('id')->on('subscriptions');

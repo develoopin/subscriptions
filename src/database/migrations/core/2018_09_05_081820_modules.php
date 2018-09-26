@@ -22,8 +22,8 @@ class Moduls extends Migration
                 $table->tinyInteger('value')->unsigned();
                 $table->integer('price')->unsigned();
                 $table->tinyInteger('sort')->unsigned();
-                $table->boolean('is_premium');
-                $table->boolean('is_active');
+                $table->boolean('is_premium')->default(false);
+                $table->boolean('is_active')->default(false);
                 $table->smallInteger('interval')->unsigned();
                 $table->smallInteger('period')->unsigned();
                 $table->timestamps();

@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Models\Core;
+
 use Illuminate\Database\Eloquent\Model;
 
-class Moduls extends Model
+class Module extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -41,11 +42,11 @@ class Moduls extends Model
         parent::boot();
 
         static::saving(function ($model) {
-            if (! $model->interval) {
+            if (!$model->interval) {
                 $model->interval = 'month';
             }
 
-            if (! $model->interval_count) {
+            if (!$model->interval_count) {
                 $model->interval_count = 1;
             }
         });
@@ -89,7 +90,7 @@ class Moduls extends Model
      */
     public function getIntervalDescriptionAttribute()
     {
-        return trans_choice('laraplans::messages.interval_description.'.$this->interval, $this->interval_count);
+        return trans_choice('laraplans::messages.interval_description.' . $this->interval, $this->interval_count);
     }
 
     /**
@@ -99,7 +100,7 @@ class Moduls extends Model
      */
     public function isFree()
     {
-        return ((float) $this->price <= 0.00);
+        return ((float)$this->price <= 0.00);
     }
 
     /**
@@ -121,7 +122,7 @@ class Moduls extends Model
      */
     public function getFeatureByCode($code)
     {
-        $feature = $this->features()->getEager()->first(function($item) use ($code) {
+        $feature = $this->features()->getEager()->first(function ($item) use ($code) {
             return $item->code === $code;
         });
 

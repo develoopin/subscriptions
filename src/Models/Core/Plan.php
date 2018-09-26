@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Models\Core;
+
 use Illuminate\Database\Eloquent\Model;
 
-class SubscriptionUsages extends Model
+class Plan extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -26,7 +27,7 @@ class SubscriptionUsages extends Model
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at', 'deleted_at'
     ];
 
     /**
@@ -39,11 +40,11 @@ class SubscriptionUsages extends Model
         parent::boot();
 
         static::saving(function ($model) {
-            if (! $model->interval) {
+            if (!$model->interval) {
                 $model->interval = 'month';
             }
 
-            if (! $model->interval_count) {
+            if (!$model->interval_count) {
                 $model->interval_count = 1;
             }
         });
@@ -87,7 +88,7 @@ class SubscriptionUsages extends Model
      */
     public function getIntervalDescriptionAttribute()
     {
-        return trans_choice('laraplans::messages.interval_description.'.$this->interval, $this->interval_count);
+        return trans_choice('laraplans::messages.interval_description.' . $this->interval, $this->interval_count);
     }
 
     /**
@@ -97,7 +98,7 @@ class SubscriptionUsages extends Model
      */
     public function isFree()
     {
-        return ((float) $this->price <= 0.00);
+        return ((float)$this->price <= 0.00);
     }
 
     /**
@@ -119,7 +120,7 @@ class SubscriptionUsages extends Model
      */
     public function getFeatureByCode($code)
     {
-        $feature = $this->features()->getEager()->first(function($item) use ($code) {
+        $feature = $this->features()->getEager()->first(function ($item) use ($code) {
             return $item->code === $code;
         });
 
