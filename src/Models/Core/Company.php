@@ -10,4 +10,6 @@ class Company extends Model
     use SoftDeletes;
     protected $connection = 'core';
     protected $table = 'companies';
+
+    
 }

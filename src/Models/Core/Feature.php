@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\Subscriptions\Core;
+namespace App\Models\Core;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Feature extends Model
 {
-	use  SoftDeletes;
+	// use  SoftDeletes;
 
 
 	/**
@@ -34,37 +34,6 @@ class Feature extends Model
 	];
 
 	/**
-	 * Get plan features.
-	 *
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
-	 */
-	public function features()
-	{
-		return $this->hasMany(config('descriptions.models.core.features'));
-	}
-
-	/**
-	 * Get plan subscriptions.
-	 *
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
-	 */
-	public function subscriptions()
-	{
-		return $this->hasMany(config('descriptions.models.core.subscriptions'));
-	}
-
-
-	/**
-	 * Get Interval Description
-	 *
-	 * @return string
-	 */
-	public function getIntervalDescriptionAttribute()
-	{
-		return trans_choice('laraplans::messages.interval_description.' . $this->interval, $this->interval_count);
-	}
-
-	/**
 	 * Check if plan is free.
 	 *
 	 * @return boolean
@@ -74,6 +43,13 @@ class Feature extends Model
 		return ((float)$this->price <= 0.00);
 	}
 
+
+	public function scopeActive($query)
+    {
+        return $query->where('is_active', 1);
+    }
+
+	
 	/**
 	 * Check if plan has trial.
 	 *

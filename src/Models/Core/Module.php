@@ -106,6 +106,31 @@ class Module extends Model
     }
 
     /**
+     * Get module is premuim.
+     *
+     * @return boolean
+     */
+    public function fPremium($query)
+    {
+        return $query->where('is_premium', 1);
+    }
+
+    /**
+     * Check if module is active.
+     *
+     * @return boolean
+     */
+    public function scopeActive($query)
+    {   
+        return $query->where('is_active', 1);
+    }
+
+
+    public function featureActive(){
+        return $this->hasMany('App\Models\Core\Feature')->active();
+    }
+
+    /**
      * Check if plan has trial.
      *
      * @return boolean

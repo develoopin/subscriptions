@@ -24,6 +24,10 @@ class SubscriptionServiceProvider extends ServiceProvider
         ], 'models-subscriptions');
 
         $this->publishes([
+            __DIR__.'/controllers/subscription/' => app_path('Http/Controllers/')
+        ], 'controllers-subscriptions');
+
+        $this->publishes([
             __DIR__.'/config/subscriptions.php' => config_path('subscriptions.php')
         ], 'config');
 
