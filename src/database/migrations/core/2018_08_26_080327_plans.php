@@ -20,7 +20,6 @@ class Plans extends Migration
                 $table->json('description');
                 $table->tinyInteger('value')->unsigned();
                 $table->integer('price')->unsigned();
-                $table->boolean('is_active');
                 $table->smallInteger('trial_period')->unsigned();
                 $table->smallInteger('trial_limit')->unsigned();
                 $table->smallInteger('period')->unsigned();
@@ -32,6 +31,9 @@ class Plans extends Migration
                 $table->smallInteger('canceled_period')->unsigned();
                 $table->enum('canceled_interval',['day','week','month','year'])->default('day');
                 $table->enum('type', ['primary', 'addon']);
+                $table->boolean('is_active')->default(false);
+                $table->boolean('is_premium')->default(false);
+                $table->boolean('is_visible')->default(false);
                 $table->tinyInteger('sort')->unsigned();
                 $table->timestamps();
                 $table->softDeletes();

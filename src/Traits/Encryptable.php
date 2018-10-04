@@ -1,6 +1,5 @@
 <?php
-
-namespace Develoopin\Subscriptions\Traits;
+namespace App\Traits;
 
 use Crypt;
 use Develoopin\Subscriptions\Models\Core\User;
@@ -13,7 +12,7 @@ trait Encryptable{
 
     public function  __construct(){
         $this->cipher = Config::get('app.cipher');
-//        $this->key = Crypt::generateKey($this->chiper); //query from db
+//      $this->key = Crypt::generateKey($this->chiper); //query from db
         $this->key = User::where('id', 1)->first()->key; //query from db
         $this->encrypter = new Illuminate\Encryption\Encrypter($this->key, $this->chiper);
     }

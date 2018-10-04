@@ -12,12 +12,14 @@ class Module extends Model
      * @var array
      */
     protected $fillable = [
+        'plan_id',
         'name',
         'description',
         'value',
         'price',
         'is_premium',
         'is_active',
+        'is_visible',
         'interval',
         'period',
         'sort',
@@ -37,20 +39,20 @@ class Module extends Model
      *
      * @return void
      */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($model) {
-            if (!$model->interval) {
-                $model->interval = 'month';
-            }
-
-            if (!$model->interval_count) {
-                $model->interval_count = 1;
-            }
-        });
-    }
+//    protected static function boot()
+//    {
+//        parent::boot();
+//
+//        static::saving(function ($model) {
+//            if (! $model->interval) {
+//                $model->interval = 'month';
+//            }
+//
+//            if (! $model->interval_count) {
+//                $model->interval_count = 1;
+//            }
+//        });
+//    }
 
     /**
      * Get plan features.
@@ -90,7 +92,7 @@ class Module extends Model
      */
     public function getIntervalDescriptionAttribute()
     {
-        return trans_choice('laraplans::messages.interval_description.' . $this->interval, $this->interval_count);
+        return trans_choice('laraplans::messages.interval_description.'.$this->interval, $this->interval_count);
     }
 
     /**
@@ -100,7 +102,32 @@ class Module extends Model
      */
     public function isFree()
     {
-        return ((float)$this->price <= 0.00);
+        return ((float) $this->price <= 0.00);
+    }
+
+    /**
+     * Get module is premuim.
+     *
+     * @return boolean
+     */
+    public function fPremium($query)
+    {
+        return $query->where('is_premium', 1);
+    }
+
+    /**
+     * Check if module is active.
+     *
+     * @return boolean
+     */
+    public function scopeActive($query)
+    {   
+        return $query->where('is_active', 1);
+    }
+
+
+    public function featureActive(){
+        return $this->hasMany('App\Models\Core\Feature')->active();
     }
 
     /**
@@ -122,7 +149,7 @@ class Module extends Model
      */
     public function getFeatureByCode($code)
     {
-        $feature = $this->features()->getEager()->first(function ($item) use ($code) {
+        $feature = $this->features()->getEager()->first(function($item) use ($code) {
             return $item->code === $code;
         });
 
