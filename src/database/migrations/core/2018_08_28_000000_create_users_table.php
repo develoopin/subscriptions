@@ -22,10 +22,6 @@ class CreateUsersTable extends Migration
             $table->string('username')->nullable(true)->default(null);
             $table->string('email')->unique();
             $table->string('password');
-            $table->text('address');
-            $table->string('country');
-            $table->string('city');
-            $table->integer('zip');
             $table->string('mobile_token')->nullable()->default(null);
             $table->dateTime('deactivation_at')->nullable(true)->default(null);
             $table->dateTime('register_at')->nullable(true)->default(null);
