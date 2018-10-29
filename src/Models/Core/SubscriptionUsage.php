@@ -1,6 +1,6 @@
 <?php
 
-namespace Develoopin\Subscriptions\Models\Core;
+namespace App\Models\Core;
 
 use Develoopin\Subscriptions\Period;
 use Illuminate\Database\Eloquent\Model;
@@ -13,13 +13,10 @@ class SubscriptionUsage extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'description',
+        'subs_id',
+        'usages',
         'price',
-        'interval',
-        'interval_count',
-        'trial_period_days',
-        'sort_order',
+        'used_at'
     ];
 
     /**
@@ -30,26 +27,6 @@ class SubscriptionUsage extends Model
     protected $dates = [
         'created_at', 'updated_at'
     ];
-
-    /**
-     * Boot function for using with User Events.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($model) {
-            if (! $model->interval) {
-                $model->interval = 'month';
-            }
-
-            if (! $model->interval_count) {
-                $model->interval_count = 1;
-            }
-        });
-    }
 
     /**
      * Get plan features.
@@ -80,16 +57,6 @@ class SubscriptionUsage extends Model
     {
         $intervals = Period::getAllIntervals();
         return (isset($intervals[$this->interval]) ? $intervals[$this->interval] : null);
-    }
-
-    /**
-     * Get Interval Description
-     *
-     * @return string
-     */
-    public function getIntervalDescriptionAttribute()
-    {
-        return trans_choice('laraplans::messages.interval_description.'.$this->interval, $this->interval_count);
     }
 
     /**

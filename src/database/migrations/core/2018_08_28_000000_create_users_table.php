@@ -23,15 +23,15 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('mobile_token')->nullable()->default(null);
-            $table->dateTime('deactivation_at')->nullable(true)->default(null);
-            $table->dateTime('register_at')->nullable(true)->default(null);
-            $table->dateTime('verify_at')->nullable(true)->default(null);
+            $table->dateTime('deactivated_at')->nullable(true)->default(null);
+            $table->dateTime('registered_at')->nullable(true)->default(null);
+            $table->timestamp('email_verified_at')->nullable();
             $table->dateTime('disabled_at')->nullable(true)->default(null);
             $table->timestamps();
             $table->softDeletes();
             $table->rememberToken();
             $table->foreign('company_id')->references('id')->on('companies');
-            // $table->foreign('role_id')->references('id')->on('roles');
+            $table->foreign('role_id')->references('id')->on('user_roles');
         });
     }
 

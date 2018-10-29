@@ -16,18 +16,15 @@ class Features extends Migration
 		if (!Schema::hasTable('features')) {
 			Schema::create('features', function (Blueprint $table) {
 				$table->increments('id')->unsigned();
-				$table->integer('module_id')->unsigned();
-				$table->json('name');
-				$table->json('description')->nullable();
-                $table->boolean('is_premium')->default(false);
-                $table->boolean('is_visible')->default(false);
-                $table->boolean('is_active')->default(false);
+				$table->string('name');
+				$table->text('description')->nullable()->default(null);
+				$table->json('lang')->nullable()->default(null);
+				$table->boolean('is_premium')->default(false);
+				$table->boolean('is_visible')->default(false);
+				$table->boolean('is_active')->default(false);
 				$table->tinyInteger('sort')->unsigned();
 				$table->timestamps();
 				$table->softDeletes();
-
-				$table->foreign('module_id')->references('id')->on('modules');
-
 			});
 		}
 	}

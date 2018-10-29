@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Feature extends Model
 {
+	const FEATURE_NAME = 'FEATURE MANAGEMENT';
 	// use  SoftDeletes;
 
 
@@ -15,12 +16,12 @@ class Feature extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-		'module_id',
 		'name',
 		'description',
-        'is_premium',
-        'is_active',
-        'is_visible',
+		'lang',
+		'is_premium',
+		'is_active',
+		'is_visible',
 		'sort',
 	];
 
@@ -34,6 +35,16 @@ class Feature extends Model
 	];
 
 	/**
+	 * Get plan package features.
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function planPackage()
+	{
+		return $this->hasMany('App\Models\Core\PlanPackage');
+	}
+
+	/**
 	 * Check if plan is free.
 	 *
 	 * @return boolean
@@ -45,11 +56,11 @@ class Feature extends Model
 
 
 	public function scopeActive($query)
-    {
-        return $query->where('is_active', 1);
-    }
+	{
+		return $query->where('is_active', 1);
+	}
 
-	
+
 	/**
 	 * Check if plan has trial.
 	 *

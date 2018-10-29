@@ -6,15 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Module extends Model
 {
+    const FEATURE_NAME = 'MODULE MANAGEMENT';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'plan_id',
         'name',
         'description',
+        'lang',
         'value',
         'price',
         'is_premium',
@@ -55,13 +56,13 @@ class Module extends Model
 //    }
 
     /**
-     * Get plan features.
+     * Get plan package features.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function features()
+    public function planPackage()
     {
-        return $this->hasMany(config('laraplans.models.plan_feature'));
+        return $this->hasMany('App\Models\Core\PlanPackage');
     }
 
     /**
@@ -92,7 +93,7 @@ class Module extends Model
      */
     public function getIntervalDescriptionAttribute()
     {
-        return trans_choice('laraplans::messages.interval_description.'.$this->interval, $this->interval_count);
+        return trans_choice('laraplans::messages.interval_description.' . $this->interval, $this->interval_count);
     }
 
     /**
@@ -102,7 +103,7 @@ class Module extends Model
      */
     public function isFree()
     {
-        return ((float) $this->price <= 0.00);
+        return ((float)$this->price <= 0.00);
     }
 
     /**
@@ -121,12 +122,23 @@ class Module extends Model
      * @return boolean
      */
     public function scopeActive($query)
-    {   
+    {
         return $query->where('is_active', 1);
     }
 
+    /**
+     * Check if module is premium.
+     *
+     * @return boolean
+     */
+    public function scopePremium($query)
+    {
+        return $query->where('is_premium', 1);
+    }
 
-    public function featureActive(){
+
+    public function featureActive()
+    {
         return $this->hasMany('App\Models\Core\Feature')->active();
     }
 
@@ -149,7 +161,7 @@ class Module extends Model
      */
     public function getFeatureByCode($code)
     {
-        $feature = $this->features()->getEager()->first(function($item) use ($code) {
+        $feature = $this->features()->getEager()->first(function ($item) use ($code) {
             return $item->code === $code;
         });
 
@@ -158,5 +170,10 @@ class Module extends Model
         }
 
         return $feature;
+    }
+
+    public function plan()
+    {
+        return $this->belongsToMany(Plan::class, 'plan_packages');
     }
 }

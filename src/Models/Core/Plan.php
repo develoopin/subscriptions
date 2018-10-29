@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Plan extends Model
 {
+	const FEATURE_NAME = 'PLAN MANAGEMENT';
+
+
 	/**
 	 * The attributes that are mass assignable.
 	 *
@@ -15,6 +18,7 @@ class Plan extends Model
 	protected $fillable = [
 		'name',
 		'description',
+		'lang',
 		'price',
 		'value',
 		'is_active',
@@ -63,14 +67,24 @@ class Plan extends Model
 //	}
 
 	/**
-	 * Get plan features.
+	 * Get plan package features.
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
-	public function modules()
+	public function planPackage()
 	{
-		return $this->hasMany('App\Models\Core\Modules');
+		return $this->hasMany('App\Models\Core\PlanPackage');
 	}
+
+	// /**
+	//  * Get module premium.
+	//  *
+	//  * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	//  */
+	// public function modulePremium()
+	// {
+	// 	return $this->hasMany('App\Models\Core\Module')->premium();
+	// }
 
 	/**
 	 * Get plan subscriptions.
@@ -123,6 +137,16 @@ class Plan extends Model
 		return (is_numeric($this->trial_period) and $this->trial_period > 0);
 	}
 
+	public function scopeActive($query)
+	{
+		return $query->where('is_active', true);
+	}
+
+	public function scopePrimary($query)
+	{
+		return $query->where('type', 'primary');
+	}
+
 	/**
 	 * Returns the demanded feature
 	 *
@@ -142,4 +166,15 @@ class Plan extends Model
 //
 //		return $feature;
 //	}
+
+	public function module()
+	{
+		return $this->belongsToMany(Module::class, 'plan_packages');
+	}
+
+	public function feature()
+	{
+		return $this->belongsToMany(Feature::class, 'plan_packages');
+	}
+
 }

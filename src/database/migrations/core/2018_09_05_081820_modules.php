@@ -16,20 +16,19 @@ class Modules extends Migration
 		if (!Schema::hasTable('modules')) {
 			Schema::create('modules', function (Blueprint $table) {
 				$table->increments('id')->unsigned();
-				$table->integer('plan_id')->unsigned();
-				$table->json('name');
-				$table->json('description')->nullable(true)->default(null);
+				$table->string('name');
+				$table->text('description')->nullable()->default(null);
+				$table->json('lang')->nullable()->default(null);
 				$table->tinyInteger('value')->unsigned();
 				$table->integer('price')->unsigned();
-                $table->smallInteger('period')->unsigned();
-                $table->enum('interval',['day','week','month','year'])->default('day');
-                $table->tinyInteger('sort')->unsigned();
-                $table->boolean('is_premium')->default(false);
-                $table->boolean('is_visible')->default(false);
-                $table->boolean('is_active')->default(false);
+				$table->smallInteger('period')->unsigned();
+				$table->enum('interval', ['day', 'week', 'month', 'year'])->default('day');
+				$table->tinyInteger('sort')->unsigned();
+				$table->boolean('is_premium')->default(false);
+				$table->boolean('is_visible')->default(false);
+				$table->boolean('is_active')->default(false);
 				$table->timestamps();
 				$table->softDeletes();
-				$table->foreign('plan_id')->references('id')->on('plans');
 
 			});
 		}

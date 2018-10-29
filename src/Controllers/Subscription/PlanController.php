@@ -12,6 +12,7 @@ use Illuminate\Validation\Validator;
 
 class PlanController extends Controller
 {
+    protected $FEATURE_NAME = Plan::FEATURE_NAME;
     /**
      * Display a listing of the resource.
      *
@@ -39,13 +40,18 @@ class PlanController extends Controller
      */
     public function store(NewPlanRequest $request)
     {
-		try{
+        if (!\Gate::allows('lord-only', [$this->FEATURE_NAME, 'create'])) {
+            return ResponseHelper::json('', 200, 'You cant access this page');
+        }
+
+        try {
             $validated = $request->validated();
+            $validated['sort'] = Plan::count() + 1;
             $newPlan = Plan::create($validated);
-            return ResponseHelper::json($newPlan, 200,'New Plan/Package has been created');
-		}catch(Exception $e){
-			return $e;
-		}
+            return ResponseHelper::json($newPlan, 200, 'New Plan/Package has been created');
+        } catch (Exception $e) {
+            return $e;
+        }
     }
 
     /**
@@ -79,13 +85,17 @@ class PlanController extends Controller
      */
     public function update(NewPlanRequest $request, $id)
     {
-        try{
+        if (!\Gate::allows('lord-only', [$this->FEATURE_NAME, 'update'])) {
+            return ResponseHelper::json('', 200, 'You cant access this page');
+        }
+
+        try {
             $validated = $request->validated();
             $newPlan = Plan::find($id)->update($validated);
-            return ResponseHelper::json($newPlan, 200,'New Plan/Package has been updated');
-		}catch(Exception $e){
-			return $e;
-		}
+            return ResponseHelper::json($newPlan, 200, 'New Plan/Package has been updated');
+        } catch (Exception $e) {
+            return $e;
+        }
     }
 
     /**
@@ -96,6 +106,28 @@ class PlanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (!\Gate::allows('lord-only', [$this->FEATURE_NAME, 'delete'])) {
+            return ResponseHelper::json('', 200, 'You cant access this page');
+        }
+
+        $plans = Plan::whereId($id);
+        if ($plans->count() > 0) {
+            $plan = $plans->first();
+            if ($plan->planPackage->count() == 0) {
+                $sort = $plan->sort;
+                $destroy = $plans->delete();
+                #update value all coloum sort
+                Plan::where('sort', '>', $sort)->decrement('sort');
+                return ResponseHelper::json($destroy, 200, 'Success delete plan');
+            } else {
+                return ResponseHelper::json($plan, 500, 'Cant delete, this plan still in used !');
+            }
+        }
+        return ResponseHelper::json(null, 404, 'Cant delete, Plan not found !');
     }
+
+    // public function find(Request $request)
+	// {
+	// 	return Plan::whereJsonContains('name->en', 'eng')->get();
+	// }
 }
